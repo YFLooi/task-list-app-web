@@ -3,7 +3,6 @@ import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import _ from "lodash";
-import useStateMachine from "@cassiozen/usestatemachine";
 import axios from "axios";
 import ServerConfig from "@src/server.config";
 
@@ -64,7 +63,7 @@ export default function Dashboard({
     <>
       <div
         style={{
-          minHeight: "90vh",
+          minHeight: "100vh",
           width: "100vw",
           position: "fixed",
           top: 0,
