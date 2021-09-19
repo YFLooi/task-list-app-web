@@ -3,7 +3,6 @@ import { Container, Row, Col } from "react-bootstrap";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import _ from "lodash";
-import useStateMachine from "@cassiozen/usestatemachine";
 import axios from "axios";
 
 export default function AppLayout({
