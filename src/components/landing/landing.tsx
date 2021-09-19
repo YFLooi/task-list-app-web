@@ -43,46 +43,50 @@ export default function Landing({
       profileImageLink: string;
     } = JSON.parse(localStorage.getItem("userInfo"));
 
-    const getDashboardData = async () => {
-      console.log(`Getting dashboard data for token ${userInfo?.token}`);
-
-      const newDashboardData = await axios({
-        method: "get",
-        url: `${ServerConfig.getBackendBaseUrl()}/dashboard`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: {},
-      })
-        .then((res) => {
-          // Returns for any user. If required, need to filter by token/userId
-          console.log(res.data);
-
-          // Force user to input dashboard data if no latestTasks available
-          if (!res.data.latestTasks?.length) {
-            setShowDashboard(false);
-            setShowTaskInput(true);
-          }
-
-          return res.data;
-        })
-        .catch((err) => {
-          console.log(`Failed to get dashboard data. Err: ${err?.message}`);
-        });
-
-      setDashboardData((prevState) => ({
-        ...prevState,
-        latestTasks: [...newDashboardData?.latestTasks],
-        tasksCompleted: newDashboardData?.tasksCompleted,
-        totalTasks: newDashboardData?.totalTasks,
-      }));
+    const triggerGetDashboardData = async () => {
+      await getDashboardData();
     };
 
     if (userInfo?.token) {
       setIsTokenAvailable(true);
-      getDashboardData();
+      triggerGetDashboardData();
     }
   }, []);
+
+  const getDashboardData = async () => {
+    console.log(`Getting dashboard data for token ${userInfo?.token}`);
+
+    const newDashboardData = await axios({
+      method: "get",
+      url: `${ServerConfig.getBackendBaseUrl()}/dashboard`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: {},
+    })
+      .then((res) => {
+        // Returns for any user. If required, need to filter by token/userId
+        console.log(res.data);
+
+        // Force user to input dashboard data if no latestTasks available
+        if (!res.data.latestTasks?.length) {
+          setShowDashboard(false);
+          setShowTaskInput(true);
+        }
+
+        return res.data;
+      })
+      .catch((err) => {
+        console.log(`Failed to get dashboard data. Err: ${err?.message}`);
+      });
+
+    setDashboardData((prevState) => ({
+      ...prevState,
+      latestTasks: [...newDashboardData?.latestTasks],
+      tasksCompleted: newDashboardData?.tasksCompleted,
+      totalTasks: newDashboardData?.totalTasks,
+    }));
+  };
 
   return (
     <>
@@ -90,6 +94,7 @@ export default function Landing({
         <LoginForm
           setIsTokenAvailable={setIsTokenAvailable}
           setUserInfo={setUserInfo}
+          getDashboardData={getDashboardData}
         />
       )}
       {isTokenAvailable && (

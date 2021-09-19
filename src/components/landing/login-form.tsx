@@ -9,9 +9,11 @@ import ServerConfig from "@src/server.config";
 export default function LoginForm({
   setIsTokenAvailable,
   setUserInfo,
+  getDashboardData,
 }: {
   setIsTokenAvailable: Function;
   setUserInfo: Function;
+  getDashboardData: Function;
 }) {
   const getUserInfo = async () => {
     // Use this method instead of onChange on each input because
@@ -53,6 +55,9 @@ export default function LoginForm({
         profileImageLink: userInfo.image,
       })
     );
+
+    // Fetch data for the dashboard
+    await getDashboardData();
 
     // Reveal the dashboard and set post-login info
     setUserInfo((prevState) => ({
