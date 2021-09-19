@@ -25,9 +25,9 @@ namespace ServerConfig {
 
   export function getBackendBaseUrl(): Readonly<string> {
     if (isProduction()) {
-      return "https://task-list.app.com";
+      return "https://task-list-app-20092021.herokuapp.com";
     } else if (isDevelopment()) {
-      return "https://task-list.dev.app.com";
+      return "https://task-list-app-20092021.herokuapp.com";
     }
     return "http://localhost:3500";
   }
